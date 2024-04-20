@@ -1,0 +1,47 @@
+.carousel-item {
+    background-size: cover; /* Cover the entire container */
+    background-position: center; /* Center the image within the container */
+    background-repeat: no-repeat; /* Prevent the image from repeating */
+}
+
+.carousel-item .custom-carousel-content {
+    width: 50%;
+    transform: translate(0%, -10%);
+}
+
+.carousel-item img {
+    max-height: 480px; /* Set the maximum height of the image */
+    max-width: 100%; /* Set the maximum width of the image */
+}
+
+.custom-carousel-content {
+    text-align: start;
+}
+
+.custom-carousel-content h1 {
+    font-size: 30px;
+    font-weight: 600;
+    color: #fff;
+    margin-bottom: 15px;
+}
+
+.custom-carousel-content h1 span {
+    color: darkorange;
+}
+
+.custom-carousel-content p {
+    font-size: 19px;
+    font-weight: 450;
+    color: white;
+    margin-bottom: 20px;
+}
+
+.custom-carousel-content .btn-slider {
+    border: 1px solid #fff;
+    border-radius: 0px;
+    padding: 8px 26px;
+    color: #fff;
+    font-size: 18px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+}
