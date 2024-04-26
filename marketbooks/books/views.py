@@ -17,6 +17,8 @@ from django.http import HttpResponseServerError
 from django.views import View
 from .forms import CustomerRegistrationForm, CustomerprofileForm
 from django.contrib import messages
+
+from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 # Create your views here.
 
 
@@ -106,22 +108,29 @@ def download_book(request, slug):
 def Shop(request):
     books = Book.objects.all()
     categories = BooksCategory.objects.all()
-
+    page = Paginator(books, 21)
+    page_list = request.GET.get('page')
+    page = page.get_page(page_list)
+    
+    
+  
     #Filter books based on price range if the form is submitted
-    #
-
     min_price = request.GET.get('min_price')
     max_price = request.GET.get('max_price')
-
     if min_price and max_price:
         books = Book.filter_by_price_range(min_price, max_price)
 
     return render(request, 'shop.html',
                   {
-                      'books': books,
-                      'categories': categories
+                      'page': page,
+                     
+                       'categories': categories,
+                       
                    }
                   )
+
+
+
 
 
 def Category_book(request, category_id):
