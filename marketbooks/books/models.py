@@ -128,6 +128,8 @@ class Customer(models.Model):
      mobile = models.IntegerField(default=0, blank=True)
      zipcode = models.IntegerField(default=0, blank=True)
      state = models.CharField(choices=STATE_CHOICES, max_length=100)
+     wishlist = models.ManyToManyField(Book, related_name='wishlist_books', blank=True)
+
 
      def __str__(self):
          return self.name

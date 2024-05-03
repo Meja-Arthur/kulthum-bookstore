@@ -21,6 +21,27 @@ from django.contrib import messages
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 # Create your views here.
 
+def wishlist(request):
+    # Assuming the user is logged in and you have access to the customer object
+    customer = Customer.objects.get(user=request.user)  # Assuming you have a User object in the request
+    wishlist_books = customer.wishlist.all()
+    return render(request, 'wishlist.html', {'wishlist_books': wishlist_books})
+
+def add_to_wishlist(request, slug):
+    book = get_object_or_404(Book, slug=slug)
+    customer = Customer.objects.get(user=request.user)  
+    # Add the book to the wishlist
+    customer.wishlist.add(book)
+    return redirect('/wishlist') 
+
+def remove_from_wishlist(request, slug):
+    book = get_object_or_404(Book, slug=slug)
+    customer = Customer.objects.get(user=request.user) 
+    # Remove the book from the wishlist
+    customer.wishlist.remove(book)
+    return redirect('/wishlist') 
+
+
 
 def Homepage(request):
     books = Book.objects.order_by('-created_at')[:8]
@@ -105,38 +126,43 @@ def download_book(request, slug):
         return HttpResponseServerError("Sorry, something went wrong. Please try again later.")
 
 
-def Shop(request):
+def Shop(request, category_id=None):
     books = Book.objects.all()
     categories = BooksCategory.objects.all()
+    
+    # Filter books by category if a category ID is provided
+    if category_id:
+        category = get_object_or_404(BooksCategory, id=category_id)
+        books = books.filter(category=category)
+   
+   
     page = Paginator(books, 21)
     page_list = request.GET.get('page')
     page = page.get_page(page_list)
     
-    
-  
     #Filter books based on price range if the form is submitted
     min_price = request.GET.get('min_price')
     max_price = request.GET.get('max_price')
     if min_price and max_price:
+        print("Min Price:", min_price)
+        print("Max Price:", max_price)
         books = Book.filter_by_price_range(min_price, max_price)
+        print("Filtered Books Count:", books.count())
 
     return render(request, 'shop.html',
                   {
                       'page': page,
-                     
                        'categories': categories,
-                       
+                        'min_price': min_price,  # Pass back the min_price and max_price for form persistence
+                        'max_price': max_price,
                    }
                   )
 
 
-
-
-
-def Category_book(request, category_id):
-    category = get_object_or_404(BooksCategory, pk=category_id)
-    books = Book.objects.filter(category=category)
-    return render(request, 'shop.html', {'category': category, 'books': books})
+# def Category_book(request, category_id):
+#     category = get_object_or_404(BooksCategory, pk=category_id)
+#     books = Book.objects.filter(category=category)
+#     return render(request, 'shop.html', {'category': category, 'books': books})
 
 
 

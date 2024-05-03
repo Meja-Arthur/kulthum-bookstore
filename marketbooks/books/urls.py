@@ -9,21 +9,21 @@ app_name = 'books'
 
 urlpatterns = [
     path('', views.Homepage, name='index'),
-
-
     path('product/<slug:slug>/', views.product_detail, name='product_detail'),
-
     path('download_book/<slug:slug>/', views.download_book, name='download_book'),
-
     path('payment-success/<slug:slug>/', views.PaymentSuccessful, name='payment-success'),
     path('payment-failed/<slug:slug>/', views.paymentFailed, name='payment-failed'),
-
     path('shop/', views.Shop, name='shop'),
-    path('category/<int:category_id>/', views.Category_book, name='category_books'),
+    
+    path('shop/category/<int:category_id>/', views.Shop, name='shop_category'),
+    
+    path('wishlist/', views.wishlist, name='wishlist'),
+    path('add_to_wishlist/<slug:slug>/', views.add_to_wishlist, name='add_to_wishlist'),
+    path('remove_from_wishlist/<slug:slug>/', views.remove_from_wishlist, name='remove_from_wishlist'),
 
+    
     path('profile/', views.ProfileView.as_view(), name='profile'),
     path('address/', views.Address, name='address'),
-    
     path('search/', views.search_results, name='search'),
 
   # Login authentications

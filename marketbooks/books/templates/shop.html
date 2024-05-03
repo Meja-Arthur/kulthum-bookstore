@@ -7,7 +7,10 @@
     		<div class="row">
     			<div class="col-md-8 col-lg-10 order-md-last">
     				<div class="row">
+
+						
                       {%for book in page.object_list %}
+					  {% if book.price >= min_price|default:0 and book.price <= max_price|default:1000 %}
 		    			<div class="col-sm-12 col-md-12 col-lg-4 ftco-animate d-flex">
 		    				<div class="product d-flex flex-column">
 								  {% if book.image %}
@@ -37,10 +40,15 @@
 			    					<p class="bottom-area d-flex px-3">
 		    							<a href="#" class="add-to-cart text-center py-2 mr-1"><span>Add to cart <i class="ion-ios-add ml-1"></i></span></a>
 		    							<a href="/product/{{ book.slug }}/" class="buy-now text-center py-2">Buy now<span><i class="ion-ios-cart ml-1"></i></span></a>
-		    						</p>
+					
+		    						</p>  
+									<a href="/add_to_wishlist/{{ book.slug }}/" class="add-to-wishlist text-center py-2">
+										<span> Add Wishlist <i class="ion-ios-heart ml-1"></i></span>
+									</a>
 		    					</div>
 		    				</div>
 		    			</div>
+						{% endif %}
 						{% endfor %}
 		    		</div>
 
@@ -55,9 +63,6 @@
 								<a class="page-link" href="/shop/?page={{ page.previous_page_number }}">Previous</a>
 								{% endif %}
 							  </li>
-
-							 
-							  
 
 							  {% for num_page in page.paginator.page_range %}
 							  <br />
@@ -77,18 +82,11 @@
 							  {% endfor %}
 
 							</li>
-
-							  
-							  
-							  
-							 
-							 
 							  <li class="page-item">
 								{% if page.has_next %}
 								<a class="page-link" href="/shop/?page={{ page.next_page_number }}">Next</a>
 								{% endif %}
 							  </li>
-
 							</ul>
 						  </nav>
 					  </div>
@@ -96,64 +94,75 @@
 		    	</div>
 
 				<div class="col-md-4 col-lg-2">
+
 		    		<div class="sidebar">
 						<div class="sidebar-box-2">
 							<h4 class="heading">Category</h4>
 							<div class="fancy-collapse-panel">
-								 <ul>
+
+								<ul>
 									{% for category in categories %}
-									<li><a href="/category/{{ category.id }}/">{{ category.name }}</a></li>
+									<li><a href="/shop/category/{{ category.id }}/">{{ category.name }}</a></li>
 									{% endfor %}
 								</ul>
+								
 				            </div>
 			            </div>
                     </div>
 
 					<div class="sidebar-box-2">
 						<h2 class="heading">Price Range</h2>
-							<form method="Get" action="/shop/" class="colorlib-form-2">
-							  <div class="row">
+						<form method="GET" action="/shop/" class="colorlib-form-2">
+							<div class="row">
 								<div class="col-md-12">
-								  <div class="form-group">
-									<label for="min_price">Price from:</label>
-								  <div class="form-field">
-									  <select name="min_price" id="min_price" class="form-control">
-										<option value="20">20</option>
-										<option value="40">40</option>
-										  <option value="50">50</option>
-									  </select>
+									<div class="form-group">
+										<label for="min_price">Price from:</label>
+										<div class="form-field">
+											<select name="min_price" id="min_price" class="form-control">
+												<option value="">Any</option> <!-- Include an option for no minimum price -->
+												<option value="0">0</option>
+												<option value="1">1</option>
+												<option value="2">2</option>
+												<!-- Add more options as needed -->
+											</select>
+										</div>
 									</div>
-								  </div>
 								</div>
-								
 								<div class="col-md-12">
-								  <div class="form-group">
-									<label for="max_price">Price to:</label>
-									<div class="form-field">
-									  <i class="icon icon-arrow-down3"></i>
-									  <select name="max_price" id="max_price" class="form-control">
-										<option value="100">100</option>
-										<option value="300">300</option>
-										  <option value="500">500</option>
-										  <option value="600">600</option>
-
-									  </select>
+									<div class="form-group">
+										<label for="max_price">Price to:</label>
+										<div class="form-field">
+											<select name="max_price" id="max_price" class="form-control">
+												<option value="">Any</option> <!-- Include an option for no maximum price -->
+												<option value="5">5</option>
+												<option value="8">8</option>
+												<option value="10">10</option>
+												<!-- Add more options as needed -->
+											</select>
+										</div>
 									</div>
-								  </div>
 								</div>
-							  </div>
-								<button type="submit" class="btn btn-primary">Filter</button>
+							</div>
+							<button type="submit" class="btn btn-primary">Filter</button>
+						</form>
+					</div>
+					
 
-								
-							</form>
-				    </div>
+
+					
+
+
+
+
+
+
+
+
+
+
+
 
 			    </div>
-
-
-
-
-
     		</div>
     	</div>
 </section>
